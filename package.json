@@ -14,8 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "fastify": "^2.1.0",
-    "make-promises-safe": "^5.0.0",
-    "puppeteer": "^1.13.0"
+    "make-promises-safe": "^5.0.0"
   },
   "devDependencies": {
     "eslint": "^5.15.3",
