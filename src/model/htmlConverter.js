@@ -8,9 +8,9 @@ const config = require('../config.js');
 
 module.exports = async (html, puppeteerPDFOpts = {}) => {
   const pdfPath = path.format({
-    root: os.tmpdir(),
+    dir: os.tmpdir(),
     name: hyperid(),
-    ext: '.pdf',
+    ext: '.pdf'
   });
 
   const opts = puppeteerPDFOpts || config.PDF_OPTS;
@@ -20,7 +20,9 @@ module.exports = async (html, puppeteerPDFOpts = {}) => {
   const page = await browser.newPage();
   await page.setContent(html);
   await page.emulateMedia('screen');
-  await page.pdf(puppeteerPDFOpts).then(pdfBuffer => fs.writeFile(pdfPath, pdfBuffer));
+  await page
+    .pdf(puppeteerPDFOpts)
+    .then(pdfBuffer => fs.writeFile(pdfPath, pdfBuffer));
 
   const rStream = fs.createReadStream(pdfPath);
   rStream.on('finish', () => {
