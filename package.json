@@ -1,7 +1,11 @@
 {
   "name": "docker-pdfer",
   "version": "0.0.1",
-  "description": "",
+  "description": "Microservice based on Node.js and Puppeteer for convert a HTML markup to PDF",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:RoTerentev/docker-html2pdf.git"
+  },
   "main": "server.js",
   "engines": {
     "node": ">=10.15.3"
