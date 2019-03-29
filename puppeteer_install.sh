@@ -1,14 +1,20 @@
 #!/bin/sh
 
 # Install latest Chromium package.
-echo @edge http://nl.alpinelinux.org/alpine/v${ALPINE_VERSION}/community >> /etc/apk/repositories && \
-echo @edge http://nl.alpinelinux.org/alpine/v${ALPINE_VERSION}/main >> /etc/apk/repositories && \
+echo @curver http://nl.alpinelinux.org/alpine/v${ALPINE_VERSION}/community >> /etc/apk/repositories && \
+echo @curver http://nl.alpinelinux.org/alpine/v${ALPINE_VERSION}/main >> /etc/apk/repositories && \
+echo @edge http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && \
 apk update && apk upgrade && \
-apk add --no-cache \
-  chromium@edge \
-  nss@edge \
-  freetype@edge \
-  harfbuzz@edge
+apk add --no-cache --progress \
+  chromium@curver \
+  nss@curver \
+  harfbuzz@curver \
+  freetype@curver \
+  ttf-freefont@curver \
+  wqy-zenhei@edge \
+  msttcorefonts-installer@curver \
+  fontconfig@curver  && \
+  update-ms-fonts && fc-cache -f
 
 # Install correct version of Puppeteer (corresponded to installed chromium)
 # https://github.com/GoogleChrome/puppeteer/releases
