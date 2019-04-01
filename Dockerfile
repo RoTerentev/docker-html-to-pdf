@@ -12,9 +12,9 @@ WORKDIR /app
 
 COPY . .
 
-# Install Chromium and Puppeteer
-RUN chmod +x ./puppeteer_install.sh && \
-    ./puppeteer_install.sh
+# Install deps
+RUN chmod +x ./preinstall.sh && \
+    ./preinstall.sh
 
 ENV CHROME_BIN=/usr/bin/chromium-browser
 
