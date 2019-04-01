@@ -1,4 +1,6 @@
-const HTMLtoPDF = require('../../model/htmlConverter.js');
+const HTMLtoPDF = require('../../model/converter.js');
+
+const pdfFromStreams = require('../../utils/mergePdf').fromStreams;
 const config = require('../../config.js');
 
 module.exports = async (fastify) => {
@@ -8,12 +10,26 @@ module.exports = async (fastify) => {
 
     if (header || footer) {
       pdfPuppeteerOpts.displayHeaderFooter = true;
-      pdfPuppeteerOpts.headerTemplate = header || '';
-      pdfPuppeteerOpts.footerTemplate = footer || '';
+      pdfPuppeteerOpts.headerTemplate = header || '<span></span>';
+      pdfPuppeteerOpts.footerTemplate = footer || '<span></span>';
     }
 
-    await HTMLtoPDF(markup, pdfPuppeteerOpts).then((pdfContentStream) => {
+    if (request.query.noFirstHeader) {
+      const titlePageOpts = Object.assign({}, pdfPuppeteerOpts, { headerTemplate: '<span></span>', pageRanges: '1' });
+      const otherPagesOpts = Object.assign({}, pdfPuppeteerOpts, { pageRanges: '2-' });
+
+      const [titlePage, otherPages] = await Promise.all([
+        HTMLtoPDF(markup, titlePageOpts),
+        HTMLtoPDF(markup, otherPagesOpts),
+      ]);
+
+      const pdfContentStream = await pdfFromStreams([titlePage, otherPages]);
       reply.type('application/pdf; charset=utf-8').send(pdfContentStream);
+      return;
+    }
+
+    await HTMLtoPDF(markup, pdfPuppeteerOpts).then((_pdfContentStream) => {
+      reply.type('application/pdf; charset=utf-8').send(_pdfContentStream);
     });
   });
 };
