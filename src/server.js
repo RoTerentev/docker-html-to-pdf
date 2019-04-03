@@ -7,7 +7,7 @@ fastify.register(api, { prefix: '/v1' });
 
 const start = async () => {
   try {
-    await fastify.listen(config.PORT, config.ADDR);
+    await fastify.listen(config.PORT, config.IP_ADDR);
   } catch (err) {
     fastify.log.error(err);
     // exit
