@@ -8,6 +8,11 @@ module.exports = {
   LAUNCH_OPTS: puppeteerLaunchOpts,
   PDF_OPTS: {
     format: 'A4',
-    margin: '15mm 20mm 10mm 15mm',
+    margin: {
+      top: '20mm',
+      right: '15mm',
+      left: '15mm',
+      bottom: '10mm',
+    },
   },
 };
