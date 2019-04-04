@@ -43,12 +43,12 @@ For more details about the Docker see the docs: https://docs.docker.com/referenc
 
 _html-to-pdf-converter.js_
 ```javascript
-const fse = require('fs-extra');
+const fs = require('fs');
 const request = require('http').request;
 
-export default (destFilePath, markup, puppeteerPDFOpts) => new Promise((resolve, reject) => {
+module.exports = (destFilePath, markup, puppeteerPDFOpts) => new Promise((resolve, reject) => {
   let body = {
-    markup: markup.html
+    markup: markup.html,
   };
 
   if (markup.header) body.header = markup.header;
@@ -59,22 +59,19 @@ export default (destFilePath, markup, puppeteerPDFOpts) => new Promise((resolve,
 
   const reqOpts = {
     port: 8765,
-    path: '/v1/html?noFirstHeader=1',
+    path: '/v1/html',
     method: 'POST',
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      'Content-Length': Buffer.byteLength(body)
-    }
+      'Content-Length': Buffer.byteLength(body),
+    },
   };
 
   const req = request(reqOpts, (res) => {
-    const pdfStream = fse.createWriteStream(destFilePath);
+    const pdfStream = fs.createWriteStream(destFilePath);
 
     pdfStream
       .on('finish', () => {
-        resolve(destFilePath);
-      })
-      .on('end', () => {
         resolve(destFilePath);
       })
       .on('error', reject);
