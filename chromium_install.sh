@@ -18,13 +18,5 @@ apk add --no-cache --progress \
   wqy-zenhei@edge \
   msttcorefonts-installer@curver \
   fontconfig@curver  && \
-  update-ms-fonts && fc-cache -f
-
-# Install correct version of Puppeteer (corresponded to installed chromium)
-# https://github.com/GoogleChrome/puppeteer/releases
-#
-# NOTE: actual on 24.03.2019 (depends on Puppeteer's version control)
-CHROMIUM_VERSION=$(apk search chromium | sed 's/^chromium-\([0-9]*\).*$/\1/')
-PUPPETEER_NPM=puppeteer-core@1.$(echo `expr $CHROMIUM_VERSION - 61`)
-
-npm install ${PUPPETEER_NPM}
+  update-ms-fonts && \
+  fc-cache -f

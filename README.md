@@ -8,11 +8,11 @@
 ### Build image
 On your host machine, go to the root of cloned project and run:
 ```bash
-docker build -t <PREFER_IMAGE_NAME>:<TAG> ./
+docker build --target prod -t <PREFER_IMAGE_NAME>:<TAG> ./
 ```
 e.g.
 ```bash
-docker build -t html2pdf:0.0.1 ./
+docker build --target prod -t html2pdf:0.0.1 ./
 ```
 
 Docker must create a new image: `html2pdf:0.0.1`
