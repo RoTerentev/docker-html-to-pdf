@@ -1,0 +1,15 @@
+version: '2.4'
+services: 
+  html2pdf:
+    build: 
+      context: .
+      target: dev
+    environment: 
+      - PORT=8765
+      - IP_ADDR=0.0.0.0
+    volumes: 
+      - ./src:/node/app
+      - /node/app/node_modules
+    ports: 
+      - 9229:9229 # debug
+      - 8765:8765

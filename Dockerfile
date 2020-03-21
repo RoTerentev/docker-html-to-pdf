@@ -64,8 +64,20 @@ ENV NODE_ENV=production
 COPY ./src ./
 
 # Run everything after as non-privileged user.
+RUN chown -R pptruser:pptruser /node
 USER pptruser
 
-RUN npm install --production
+ENTRYPOINT ["/sbin/tini", "--"]
 
-ENTRYPOINT [ "npm", "start" ]
+CMD ["node", "server.js" ]
+
+# ---------------------------------------------------------------------------- #
+#                                  DEVELOPMENT                                 #
+# ---------------------------------------------------------------------------- #
+FROM base as dev
+
+ENV NODE_ENV=development
+
+RUN npm install --only=development && npm cache clean --force
+
+CMD ["nodemon"]
